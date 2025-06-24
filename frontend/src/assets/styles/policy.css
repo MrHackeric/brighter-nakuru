@@ -1,0 +1,85 @@
+/* Policy Page Styles */
+.policy-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.policy-header {
+  background-color: #1a3a6e;
+  color: white;
+  padding: 40px 0;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.policy-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.policy-header p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.policy-content {
+  padding-bottom: 50px;
+}
+
+.policy-section {
+  margin-bottom: 30px;
+}
+
+.policy-section h2 {
+  color: #1a3a6e;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.policy-section p {
+  margin-bottom: 15px;
+}
+
+.policy-section ul {
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+.policy-section li {
+  margin-bottom: 8px;
+}
+
+.policy-footer {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.back-home {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #1a3a6e;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.back-home:hover {
+  background-color: #0d2a52;
+}
+
+@media (max-width: 768px) {
+  .policy-header h1 {
+    font-size: 2rem;
+  }
+  
+  .policy-section h2 {
+    font-size: 1.3rem;
+  }
+}

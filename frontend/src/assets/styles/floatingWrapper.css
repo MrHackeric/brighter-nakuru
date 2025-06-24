@@ -1,0 +1,25 @@
+.floating-wrapper {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column-reverse; /* Changed to column-reverse */
+  align-items: flex-end;
+  gap: 15px;
+  z-index: 9999;
+}
+
+/* Adjust the scroll buttons to appear below WhatsApp */
+.scroll-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 60px; /* Add space for WhatsApp button */
+}
+
+/* Ensure WhatsApp stays at the very bottom */
+.whatsapp-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
