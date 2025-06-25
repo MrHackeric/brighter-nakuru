@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import '../assets/styles/pages.css';
+import '../assets/styles/newspages.css';
 
 const News = () => {
   const [posts, setPosts] = useState([]);
@@ -108,7 +108,10 @@ const News = () => {
   if (loading && posts.length === 0) {
     return (
       <main className="page news-page">
-        <div className="container loading">Loading news...</div>
+        <div className="container loading">
+          <div className="loading-spinner"></div>
+          <p>Loading news...</p>
+        </div>
       </main>
     );
   }
@@ -117,8 +120,10 @@ const News = () => {
     return (
       <main className="page news-page">
         <div className="container error">
-          Error: {error}
-          <button onClick={() => window.location.reload()} className="btn">
+          <div className="error-icon">⚠️</div>
+          <h3>Error loading content</h3>
+          <p>{error}</p>
+          <button onClick={() => window.location.reload()} className="btn btn-primary">
             Try Again
           </button>
         </div>
@@ -130,8 +135,8 @@ const News = () => {
     <main className="page news-page">
       <section className="page-header">
         <div className="container">
-          <h1>News & Updates</h1>
-          <p>Latest from Geoffrey's campaign trail</p>
+          <h1 className="page-title">News & Updates</h1>
+          <p className="page-subtitle">Stay informed with the latest from Geoffrey's campaign</p>
         </div>
       </section>
       
@@ -143,16 +148,18 @@ const News = () => {
                 <img 
                   src={featuredPost.image} 
                   alt={featuredPost.title} 
+                  className="featured-img"
                   onError={(e) => {
                     e.target.src = '/assets/images/default-news.jpg';
                   }}
                 />
+                <div className="image-overlay"></div>
               </div>
               <div className="featured-content">
                 <span className="news-date">{featuredPost.date}</span>
-                <h2>{featuredPost.title}</h2>
-                <p>{featuredPost.excerpt}</p>
-                <Link to={`/news/${featuredPost.slug}`} className="btn">
+                <h2 className="featured-title">{featuredPost.title}</h2>
+                <p className="featured-excerpt">{featuredPost.excerpt}</p>
+                <Link to={`/news/${featuredPost.slug}`} className="btn btn-primary">
                   Read Full Story
                 </Link>
               </div>
@@ -182,12 +189,17 @@ const News = () => {
           ) : (
             <>
               <div className="news-grid">
-                {posts.map(post => (
-                  <div key={post.id} className="news-card">
+                {posts.map((post, index) => (
+                  <div 
+                    key={post.id} 
+                    className="news-card"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
                     <div className="news-image">
                       <img 
                         src={post.image} 
                         alt={post.title}
+                        className="news-img"
                         onError={(e) => {
                           e.target.src = '/assets/images/default-news.jpg';
                         }}
@@ -198,10 +210,13 @@ const News = () => {
                     </div>
                     <div className="news-content">
                       <span className="news-date">{post.date}</span>
-                      <h3>{post.title}</h3>
-                      <p>{post.excerpt}</p>
+                      <h3 className="news-title">{post.title}</h3>
+                      <p className="news-excerpt">{post.excerpt}</p>
                       <Link to={`/news/${post.slug}`} className="read-more">
-                        Read Full Story →
+                        Read Full Story
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                          <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"/>
+                        </svg>
                       </Link>
                     </div>
                   </div>
@@ -211,46 +226,54 @@ const News = () => {
               {totalPages > 1 && (
                 <div className="pagination">
                   <button 
-                    className="page-btn" 
+                    className={`page-btn ${currentPage === 1 ? 'disabled' : ''}`}
                     disabled={currentPage === 1}
                     onClick={() => handlePageChange(currentPage - 1)}
                   >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                      <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z"/>
+                    </svg>
                     Previous
                   </button>
                   
-                  {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
-                    let pageNum;
-                    if (totalPages <= 5) {
-                      pageNum = i + 1;
-                    } else if (currentPage <= 3) {
-                      pageNum = i + 1;
-                    } else if (currentPage >= totalPages - 2) {
-                      pageNum = totalPages - 4 + i;
-                    } else {
-                      pageNum = currentPage - 2 + i;
-                    }
+                  <div className="page-numbers">
+                    {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                      let pageNum;
+                      if (totalPages <= 5) {
+                        pageNum = i + 1;
+                      } else if (currentPage <= 3) {
+                        pageNum = i + 1;
+                      } else if (currentPage >= totalPages - 2) {
+                        pageNum = totalPages - 4 + i;
+                      } else {
+                        pageNum = currentPage - 2 + i;
+                      }
+                      
+                      return (
+                        <button
+                          key={pageNum}
+                          className={`page-btn ${currentPage === pageNum ? 'active' : ''}`}
+                          onClick={() => handlePageChange(pageNum)}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    })}
                     
-                    return (
-                      <button
-                        key={pageNum}
-                        className={`page-btn ${currentPage === pageNum ? 'active' : ''}`}
-                        onClick={() => handlePageChange(pageNum)}
-                      >
-                        {pageNum}
-                      </button>
-                    );
-                  })}
-                  
-                  {totalPages > 5 && currentPage < totalPages - 2 && (
-                    <span className="page-ellipsis">...</span>
-                  )}
+                    {totalPages > 5 && currentPage < totalPages - 2 && (
+                      <span className="page-ellipsis">...</span>
+                    )}
+                  </div>
                   
                   <button 
-                    className="page-btn" 
+                    className={`page-btn ${currentPage === totalPages ? 'disabled' : ''}`}
                     disabled={currentPage === totalPages}
                     onClick={() => handlePageChange(currentPage + 1)}
                   >
                     Next
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                      <path d="M13.172 12l-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414z"/>
+                    </svg>
                   </button>
                 </div>
               )}

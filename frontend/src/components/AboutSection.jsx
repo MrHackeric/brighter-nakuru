@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import '../assets/styles/about.css';
-import profileImage from '../assets/images/page-header-bg.jpg';
+import profileImage from '../assets/images/geff.jpg';
 
 const AboutSection = () => {
   useEffect(() => {
